@@ -37,11 +37,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   };
 
+  let sensorDataInterval;
+
   window.toggleWaterSensor = function() {
     const status = document.getElementById("water-sensor-status");
     if (status.textContent === "ON") {
       status.textContent = "OFF";
       updateWaterLevel(0); // Poner el indicador en 0
+      clearInterval(sensorDataInterval); // Detener la actualización de datos
     } else {
       status.textContent = "ON";
       startSensorDataUpdate(); // Iniciar la detección de datos
@@ -53,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (status.textContent === "ON") {
       status.textContent = "OFF";
       updatePHLevel(0); // Poner el indicador en 0
+      clearInterval(sensorDataInterval); // Detener la actualización de datos
     } else {
       status.textContent = "ON";
       startSensorDataUpdate(); // Iniciar la detección de datos
@@ -101,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function startSensorDataUpdate() {
-    setInterval(() => {
+    sensorDataInterval = setInterval(() => {
       fetch('https://seniormistvern.github.io/update')
         .then(response => response.text())
         .then(data => {
