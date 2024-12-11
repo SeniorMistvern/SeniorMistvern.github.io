@@ -67,8 +67,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function updateSensorData(data) {
   const [distance, ph] = data.split(';').map(item => item.split(':')[1]);
-  updateWaterLevel(distance);
-  updatePHLevel(ph);
+
+  if (distance !== undefined && ph !== undefined) {
+    updateWaterLevel(distance);
+    updatePHLevel(ph);
+  } else {
+    console.error("Datos recibidos son undefined:", data);
+  }
 }
 
 function updateWaterLevel(level) {
@@ -85,15 +90,21 @@ function updateWaterLevel(level) {
     needle.style.transform = `rotate(${angle}deg)`;
   }
 
-  function startSensorDataUpdate() {
-    setInterval(() => {
-      fetch('https://seniormistvern.github.io/update')
-        .then(response => response.text())
-        .then(data => {
+ function startSensorDataUpdate() {
+  setInterval(() => {
+    fetch('https://seniormistvern.github.io/#tinaco')
+      .then(response => response.text())
+      .then(data => {
+        console.log("Datos recibidos:", data); // Agrega esto para ver los datos en la consola
+        if (data) {
           updateSensorData(data);
-        });
-    }, 3000);
-  }
+        } else {
+          console.error("Datos recibidos están vacíos");
+        }
+      })
+      .catch(error => console.error("Error al obtener datos:", error));
+  }, 3000);
+}
 
   // Iniciar la simulación con datos reales
   startSensorDataUpdate();
