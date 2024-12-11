@@ -31,47 +31,74 @@ document.addEventListener("DOMContentLoaded", function() {
     sidebar.style.left = "-220px";
     sidebarToggle.style.left = "-30px";
 
-    // Desplaza automáticamente hacia la parte superior si la sección es "inicio"
     if (sectionId === "inicio") {
       document.getElementById("inicio").scrollIntoView({
         behavior: "smooth",
-        block: "start"  // Asegura que la sección de inicio se muestre desde la parte superior
+        block: "start"
       });
     }
   };
 
   window.toggleWaterSensor = function() {
     const status = document.getElementById("water-sensor-status");
-    status.textContent = status.textContent === "ON" ? "OFF" : "ON";
+    if (status.textContent === "ON") {
+      status.textContent = "OFF";
+      updateWaterLevel(0); // Poner el indicador en 0
+    } else {
+      status.textContent = "ON";
+      startSensorDataUpdate(); // Iniciar la detección de datos
+    }
   };
 
   window.togglePHSensor = function() {
     const status = document.getElementById("ph-sensor-status");
-    status.textContent = status.textContent === "ON" ? "OFF" : "ON";
+    if (status.textContent === "ON") {
+      status.textContent = "OFF";
+      updatePHLevel(0); // Poner el indicador en 0
+    } else {
+      status.textContent = "ON";
+      startSensorDataUpdate(); // Iniciar la detección de datos
+    }
   };
 
   window.togglePump = function() {
     alert("Bomba encendida/apagada");
   };
 
-  // Función de simulación de niveles en tiempo real
   function updateSensorData(data) {
     const [distance, ph] = data.split(';').map(item => item.split(':')[1]);
     updateWaterLevel(distance);
     updatePHLevel(ph);
   }
 
-  // Simulación de recepción de datos
-  setInterval(() => {
-    fetch('https://seniormistvern.github.io/update')
-      .then(response => response.text())
-      .then(data => {
-        updateSensorData(data);
-      });
-  }, 3000);
+  function updateWaterLevel(level) {
+    const waterFill = document.getElementById("water-fill");
+    waterFill.style.height = `${level}%`;
+    document.getElementById("water-level-percentage").textContent = `${level}%`;
+    document.getElementById("water-level-volume").textContent = `${Math.round(level * 11)} L`;
+  }
+
+  function updatePHLevel(level) {
+    const needle = document.getElementById("needle");
+    document.getElementById("ph-level-value").textContent = `${level}`;
+    const angle = ((level - 6.5) / 2) * 180;
+    needle.style.transform = `rotate(${angle}deg)`;
+  }
+
+  function startSensorDataUpdate() {
+    setInterval(() => {
+      fetch('https://seniormistvern.github.io/update')
+        .then(response => response.text())
+        .then(data => {
+          updateSensorData(data);
+        });
+    }, 3000);
+  }
+
+  // Iniciar la simulación con datos reales
+  startSensorDataUpdate();
 });
 
-// Funciones del modal
 window.openModal = function() {
   document.getElementById("modal").style.display = "flex";
 };
@@ -98,15 +125,12 @@ window.sendChat = function() {
   const chatMessages = document.getElementById("chat-messages");
 
   if (message) {
-    // Mostrar el mensaje del usuario
     const userMessage = document.createElement("div");
     userMessage.textContent = `Tú: ${message}`;
     chatMessages.appendChild(userMessage);
 
-    // Buscar respuesta en la base de conocimiento
     const response = knowledgeBase[message] || "Lo siento, no tengo una respuesta para esa pregunta.";
 
-    // Mostrar la respuesta
     setTimeout(() => {
       const aiMessage = document.createElement("div");
       aiMessage.textContent = `IA: ${response}`;
@@ -114,13 +138,16 @@ window.sendChat = function() {
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }, 500);
 
-    // Limpiar el campo de entrada
     input.value = "";
   }
 };
 
-// Añadir el evento para enviar con Enter
 document.getElementById("chat-input").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    window.sendChat();
+  }
+});
   if (event.key === "Enter") {
     event.preventDefault();
     window.sendChat();
