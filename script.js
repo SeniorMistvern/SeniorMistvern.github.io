@@ -39,23 +39,22 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
   };
-});
-  
-window.toggleWaterSensor = function() {
-  const status = document.getElementById("water-sensor-status");
-  status.textContent = status.textContent === "ON" ? "OFF" : "ON";
-};
 
-window.togglePHSensor = function() {
-  const status = document.getElementById("ph-sensor-status");
-  status.textContent = status.textContent === "ON" ? "OFF" : "ON";
-};
+  window.toggleWaterSensor = function() {
+    const status = document.getElementById("water-sensor-status");
+    status.textContent = status.textContent === "ON" ? "OFF" : "ON";
+  };
 
-window.togglePump = function() {
-  alert("Bomba encendida/apagada");
-};
+  window.togglePHSensor = function() {
+    const status = document.getElementById("ph-sensor-status");
+    status.textContent = status.textContent === "ON" ? "OFF" : "ON";
+  };
 
-// Función de simulación de niveles en tiempo real
+  window.togglePump = function() {
+    alert("Bomba encendida/apagada");
+  };
+
+  // Función de simulación de niveles en tiempo real
   function updateSensorData(data) {
     const [distance, ph] = data.split(';').map(item => item.split(':')[1]);
     updateWaterLevel(distance);
@@ -71,9 +70,6 @@ window.togglePump = function() {
       });
   }, 3000);
 });
-
-// Inicia la simulación
-simulateRealTimeLevels();
 
 // Funciones del modal
 window.openModal = function() {
