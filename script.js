@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function startSensorDataUpdate() {
   sensorDataInterval = setInterval(() => {
-    fetch('https://seniormistvern.github.io/update') // Verifica que esta URL sea correcta
+    fetch('https://seniormistvern.github.io/#tinaco') // Verifica que esta URL sea correcta
       .then(response => {
         console.log("Estado de la respuesta:", response.status);
         return response.text();
