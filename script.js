@@ -148,8 +148,3 @@ document.getElementById("chat-input").addEventListener("keypress", function(even
     window.sendChat();
   }
 });
-  if (event.key === "Enter") {
-    event.preventDefault();
-    window.sendChat();
-  }
-});
