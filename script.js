@@ -1,5 +1,3 @@
-import knowledgeBase from './knowledgeBase.js';
-
 document.addEventListener("DOMContentLoaded", function() {
   const loader = document.getElementById("loader");
   const sidebar = document.querySelector(".sidebar");
@@ -39,83 +37,84 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   };
 
-window.toggleWaterSensor = function() {
-  const status = document.getElementById("water-sensor-status");
-  if (status.textContent === "ON") {
-    status.textContent = "OFF";
-    updateWaterLevel(0); // Poner el indicador en 0
-  } else {
-    status.textContent = "ON";
-    startSensorDataUpdate(); // Iniciar la detección de datos
-  }
-};
+  window.toggleWaterSensor = function() {
+    const status = document.getElementById("water-sensor-status");
+    if (status.textContent === "ON") {
+      status.textContent = "OFF";
+      updateWaterLevel(0); // Poner el indicador en 0
+    } else {
+      status.textContent = "ON";
+      startSensorDataUpdate(); // Iniciar la detección de datos
+    }
+  };
 
-window.togglePHSensor = function() {
-  const status = document.getElementById("ph-sensor-status");
-  if (status.textContent === "ON") {
-    status.textContent = "OFF";
-    updatePHLevel(0); // Poner el indicador en 0
-  } else {
-    status.textContent = "ON";
-    startSensorDataUpdate(); // Iniciar la detección de datos
-  }
-};
+  window.togglePHSensor = function() {
+    const status = document.getElementById("ph-sensor-status");
+    if (status.textContent === "ON") {
+      status.textContent = "OFF";
+      updatePHLevel(0); // Poner el indicador en 0
+    } else {
+      status.textContent = "ON";
+      startSensorDataUpdate(); // Iniciar la detección de datos
+    }
+  };
 
   window.togglePump = function() {
     alert("Bomba encendida/apagada");
   };
 
-function updateSensorData(data) {
-  const [distance, ph] = data.split(';').map(item => item.split(':')[1]);
+  function updateSensorData(data) {
+    const [distance, ph] = data.split(';').map(item => item.split(':')[1]);
 
-  if (distance !== undefined && ph !== undefined) {
-    updateWaterLevel(distance);
-    updatePHLevel(ph);
-  } else {
-    console.error("Datos recibidos son undefined:", data);
+    if (distance !== undefined && ph !== undefined) {
+      updateWaterLevel(distance);
+      updatePHLevel(ph);
+    } else {
+      console.error("Datos recibidos son undefined:", data);
+    }
   }
-}
 
-function updateWaterLevel(level) {
-  const waterFill = document.getElementById("water-fill");
-  const levelNumber = parseFloat(level);
+  function updateWaterLevel(level) {
+    const waterFill = document.getElementById("water-fill");
+    const levelNumber = parseFloat(level);
 
-  if (!isNaN(levelNumber)) {
-    waterFill.style.height = `${levelNumber}%`;
-    document.getElementById("water-level-percentage").textContent = `${levelNumber}%`;
-    document.getElementById("water-level-volume").textContent = `${Math.round(levelNumber * 11 / 100)} L`;
-  } else {
-    console.error("Nivel de agua no es un número válido:", level);
+    if (!isNaN(levelNumber)) {
+      waterFill.style.height = `${levelNumber}%`;
+      document.getElementById("water-level-percentage").textContent = `${levelNumber}%`;
+      document.getElementById("water-level-volume").textContent = `${Math.round(levelNumber * 11 / 100)} L`;
+    } else {
+      console.error("Nivel de agua no es un número válido:", level);
+    }
   }
-}
 
-function updatePHLevel(level) {
-  const needle = document.getElementById("needle");
-  const levelNumber = parseFloat(level);
+  function updatePHLevel(level) {
+    const needle = document.getElementById("needle");
+    const levelNumber = parseFloat(level);
 
-  if (!isNaN(levelNumber)) {
-    document.getElementById("ph-level-value").textContent = `${levelNumber}`;
-    const angle = ((levelNumber - 6.5) / 2) * 180;
-    needle.style.transform = `rotate(${angle}deg)`;
-  } else {
-    console.error("Nivel de pH no es un número válido:", level);
+    if (!isNaN(levelNumber)) {
+      document.getElementById("ph-level-value").textContent = `${levelNumber}`;
+      const angle = ((levelNumber - 6.5) / 2) * 180;
+      needle.style.transform = `rotate(${angle}deg)`;
+    } else {
+      console.error("Nivel de pH no es un número válido:", level);
+    }
   }
-}
- function startSensorDataUpdate() {
-  setInterval(() => {
-    fetch('https://seniormistvern.github.io/#tinaco')
-      .then(response => response.text())
-      .then(data => {
-        console.log("Datos recibidos:", data); // Agrega esto para ver los datos en la consola
-        if (data) {
-          updateSensorData(data);
-        } else {
-          console.error("Datos recibidos están vacíos");
-        }
-      })
-      .catch(error => console.error("Error al obtener datos:", error));
-  }, 3000);
-}
+
+  function startSensorDataUpdate() {
+    setInterval(() => {
+      fetch('https://seniormistvern.github.io/update')
+        .then(response => response.text())
+        .then(data => {
+          console.log("Datos recibidos:", data); // Verifica los datos recibidos en la consola
+          if (data) {
+            updateSensorData(data);
+          } else {
+            console.error("Datos recibidos están vacíos");
+          }
+        })
+        .catch(error => console.error("Error al obtener datos:", error));
+    }, 3000);
+  }
 
   // Iniciar la simulación con datos reales
   startSensorDataUpdate();
