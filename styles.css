@@ -1,0 +1,450 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  /* Fondo pagina */
+  body, html {
+    font-family: Arial, sans-serif;
+    background-color: #dddddd;
+    color: #ffffff;
+    height: 100%;
+  }
+  
+  /* Loader */
+  #loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #1e1e2f;
+    color: #00bcd4;
+    text-align: center;
+  }
+  
+  .loader-logo {
+    width: 80px;
+    margin-bottom: 10px;
+  }
+  
+  .loader-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #00bcd4;
+    font-weight: bold;
+  }
+  
+  .loader-bar {
+    width: 80%;
+    max-width: 400px;
+    height: 10px;
+    background-color: #333;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 15px 0;
+  }
+  
+  .loader-progress {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #00bcd4, #ffffff);
+    animation: loadProgress 3s forwards;
+  }
+  
+  @keyframes loadProgress {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+  .loader-welcome {
+    font-size: 18px;
+    color: #ffffff;
+    margin-top: 10px;
+  }
+  
+  /* Encabezado */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #2d2d3f;
+    color: #00bcd4;
+  }
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .header-logo {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .header-title {
+    font-size: 90px;
+    font-weight: bold;
+  }
+  
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 80px;
+  left: -220px; /* Oculta la barra inicialmente */
+  width: 200px;
+  height: calc(100% - 80px); /* Ocupa toda la pantalla debajo del encabezado */
+  background-color: #2d2d3f;
+  padding-top: 20px;
+  color: #fff;
+  overflow-y: auto; /* Permite desplazamiento en la barra si hay mucho contenido */
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+
+/* Botón de la barra lateral */
+.sidebar-toggle {
+  position: fixed;
+  top: 90px;
+  left: -30px;
+  background-color: #00bcd4;
+  border: 2px solid #ffffff;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: left 0.3s ease, background-color 0.3s;
+  z-index: 1001;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-toggle:hover {
+  background-color: #ffffff;
+}
+
+.sidebar-toggle::before {
+  content: "☰ ";
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+/* Sidebar Links */
+.sidebar nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin: 15px 0;
+}
+
+.sidebar nav ul li a {
+  color: #00bcd4;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 10px 20px;
+  display: block;
+}
+
+.sidebar nav ul li a:hover {
+  background-color: #ffffff;
+}
+
+  
+  /* Main content */
+  main {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .section {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 20px;
+  }
+  
+  /* Welcome Frame */
+  .welcome-frame {
+    background-color: #2d2d3f;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    color: #00bcd4;
+  }
+
+  .welcome-frame h2 {
+    font-size: 26px;
+    margin-bottom: 15px;
+  }
+  
+  .welcome-frame p {
+    font-size: 18px;
+    color: #e0e0e0;
+  }
+  
+ /* Frames extras */
+ .extra-frame {
+  background-color: #2d2d3f;
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  color: #00bcd4;
+  margin-top: 20px;
+}
+
+.extra-frame h2 {
+  font-size: 26px;
+  margin-bottom: 15px;
+}
+
+.extra-frame p {
+  font-size: 18px;
+  color: #e0e0e0;
+}
+
+/* Imagen en el info-frame */
+.info-frame {
+  max-width: 400px; /* Ajusta el tamaño máximo del frame */
+  margin: 0 auto; /* Centra el frame dentro del info-frame */
+  padding: 10px;
+  background-color: #2d2d3f;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+.info-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+/* Sección del Tinaco */
+.tinaco-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #2d2d3f;
+  border-radius: 10px;
+  text-align: center;
+  color: #00bcd4;
+}
+
+/* Indicadores */
+.indicator {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  color: #ffffff;
+  position: relative;
+}
+
+.water-level h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Contenedor del tinaco */
+.tank {
+  width: 100px;
+  height: 200px;
+  background-color: #555;
+  border-radius: 5px;
+  margin: 0 auto 15px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Nivel de agua */
+.water-fill {
+  width: 100%;
+  height: 0;
+  background: linear-gradient(180deg, #00bcd4, #0073a7);
+  position: absolute;
+  bottom: 0;
+  transition: height 1s ease;
+}
+
+/* Tacómetro de nivel de pH */
+.tachometer {
+  width: 250px; /* Ajusta este valor para cambiar el tamaño */
+  height: 175px; /* Ajusta este valor para cambiar el tamaño */
+  margin: 0 auto;
+}
+
+.gauge {
+  width: 100%;
+  height: auto;
+}
+
+/* Animación para la aguja del tacómetro */
+#needle {
+  stroke: #00bcd4; /* Cambia a azul */
+  stroke-width: 2;
+  transition: transform 1s ease;
+  transform-origin: 50% 50%;
+}
+
+/* Contenedor de botones */
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px; /* Espacio entre los botones */
+  margin-top: 20px;
+}
+
+.button-container button {
+  background-color: #00bcd4;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button-container button:hover {
+  background-color: #ffffff;
+}
+/* Modal estilo */
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+  justify-content: center;
+  align-items: center;
+  z-index: 1001; /* Asegura que esté por encima de otros elementos */
+}
+
+.modal-content {
+  background-color: #2d2d3f;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: #00bcd4;
+  width: 80%;
+  max-width: 400px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-content h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.modal-content label {
+  display: block;
+  font-size: 16px;
+  margin-top: 10px;
+  color: #ffffff;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #333;
+  color: #ffffff;
+}
+
+.modal-content button {
+  background-color: #00bcd4;
+  color: #fff;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #ffffff;
+}
+/* Estilo del frame del chat */
+.chat-frame {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #2d2d3f;
+  border-radius: 10px;
+  color: #00bcd4;
+  text-align: center;
+}
+
+/* Título del chat */
+.chat-frame h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Área de mensajes */
+.chat-messages {
+  height: 300px;
+  overflow-y: auto;
+  background-color: #333;
+  padding: 15px;
+  border-radius: 5px;
+  color: #ffffff;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+/* Contenedor del campo de entrada */
+.chat-input-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Estilo del campo de entrada */
+#chat-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #444;
+  color: #ffffff;
+}
+
+/* Botón de envío */
+.chat-input-container button {
+  padding: 10px 20px;
+  background-color: #00bcd4;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chat-input-container button:hover {
+  background-color: #ffffff;
+}
