@@ -65,19 +65,19 @@ document.addEventListener("DOMContentLoaded", function() {
     alert("Bomba encendida/apagada");
   };
 
-  function updateSensorData(data) {
-    const [distance, ph] = data.split(';').map(item => item.split(':')[1]);
-    updateWaterLevel(distance);
-    updatePHLevel(ph);
-  }
+function updateSensorData(data) {
+  const [distance, ph] = data.split(';').map(item => item.split(':')[1]);
+  updateWaterLevel(distance);
+  updatePHLevel(ph);
+}
 
-  function updateWaterLevel(level) {
-    const waterFill = document.getElementById("water-fill");
-    waterFill.style.height = `${level}%`;
-    document.getElementById("water-level-percentage").textContent = `${level}%`;
-    document.getElementById("water-level-volume").textContent = `${Math.round(level * 11)} L`;
-  }
-
+function updateWaterLevel(level) {
+  const waterFill = document.getElementById("water-fill");
+  waterFill.style.height = `${level}%`;
+  document.getElementById("water-level-percentage").textContent = `${level}%`;
+  document.getElementById("water-level-volume").textContent = `${Math.round(level * 11 / 100)} L`;
+}
+  
   function updatePHLevel(level) {
     const needle = document.getElementById("needle");
     document.getElementById("ph-level-value").textContent = `${level}`;
