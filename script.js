@@ -105,20 +105,23 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function startSensorDataUpdate() {
-    sensorDataInterval = setInterval(() => {
-      fetch('https://seniormistvern.github.io/update')
-        .then(response => response.text())
-        .then(data => {
-          console.log("Datos recibidos:", data); // Verifica los datos recibidos en la consola
-          if (data) {
-            updateSensorData(data);
-          } else {
-            console.error("Datos recibidos están vacíos");
-          }
-        })
-        .catch(error => console.error("Error al obtener datos:", error));
-    }, 3000);
-  }
+  sensorDataInterval = setInterval(() => {
+    fetch('https://seniormistvern.github.io/update') // Verifica que esta URL sea correcta
+      .then(response => {
+        console.log("Estado de la respuesta:", response.status);
+        return response.text();
+      })
+      .then(data => {
+        console.log("Datos recibidos:", data); // Verifica los datos recibidos en la consola
+        if (data && data.includes("DIST:") && data.includes("PH:")) {
+          updateSensorData(data);
+        } else {
+          console.error("Datos recibidos son incorrectos:", data);
+        }
+      })
+      .catch(error => console.error("Error al obtener datos:", error));
+  }, 3000);
+}
 
   // Iniciar la simulación con datos reales
   startSensorDataUpdate();
