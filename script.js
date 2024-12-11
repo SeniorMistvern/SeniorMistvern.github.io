@@ -56,36 +56,21 @@ window.togglePump = function() {
 };
 
 // Función de simulación de niveles en tiempo real
-function updateWaterLevel(level) {
-  const waterFill = document.getElementById("water-fill");
-  waterFill.style.height = `${level}%`;
-  document.getElementById("water-level-percentage").textContent = `${level}%`;
-  document.getElementById("water-level-volume").textContent = `${Math.round(level * 11)} L`;
-}
+  function updateSensorData(data) {
+    const [distance, ph] = data.split(';').map(item => item.split(':')[1]);
+    updateWaterLevel(distance);
+    updatePHLevel(ph);
+  }
 
-function updatePHLevel(level) {
-  const phFill = document.getElementById("ph-fill");
-  const needle = document.getElementById("needle");
-
-  // Actualiza el valor de pH en el texto
-  document.getElementById("ph-level-value").textContent = `${level}`;
-
-  // Calcula el ángulo de la aguja (0° en pH 6.5 y 180° en pH 8.5)
-  const angle = ((level - 6.5) / 2) * 180;
-  needle.style.transform = `rotate(${angle}deg)`;
-}
-
-function simulateRealTimeLevels() {
+  // Simulación de recepción de datos
   setInterval(() => {
-    // Simula un nivel de agua entre 50% y 100%
-    const waterLevel = Math.floor(Math.random() * 51) + 50;
-    updateWaterLevel(waterLevel);
-
-    // Simula un nivel de pH entre 6.5 y 8.5
-    const phLevel = (Math.random() * 2 + 6.5).toFixed(1);
-    updatePHLevel(phLevel);
-  }, 3000); // Actualiza cada 3 segundos
-}
+    fetch('https://seniormistvern.github.io/update')
+      .then(response => response.text())
+      .then(data => {
+        updateSensorData(data);
+      });
+  }, 3000);
+});
 
 // Inicia la simulación
 simulateRealTimeLevels();
