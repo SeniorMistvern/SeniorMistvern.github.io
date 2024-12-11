@@ -39,27 +39,27 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   };
 
-  window.toggleWaterSensor = function() {
-    const status = document.getElementById("water-sensor-status");
-    if (status.textContent === "ON") {
-      status.textContent = "OFF";
-      updateWaterLevel(0); // Poner el indicador en 0
-    } else {
-      status.textContent = "ON";
-      startSensorDataUpdate(); // Iniciar la detección de datos
-    }
-  };
+window.toggleWaterSensor = function() {
+  const status = document.getElementById("water-sensor-status");
+  if (status.textContent === "ON") {
+    status.textContent = "OFF";
+    updateWaterLevel(0); // Poner el indicador en 0
+  } else {
+    status.textContent = "ON";
+    startSensorDataUpdate(); // Iniciar la detección de datos
+  }
+};
 
-  window.togglePHSensor = function() {
-    const status = document.getElementById("ph-sensor-status");
-    if (status.textContent === "ON") {
-      status.textContent = "OFF";
-      updatePHLevel(0); // Poner el indicador en 0
-    } else {
-      status.textContent = "ON";
-      startSensorDataUpdate(); // Iniciar la detección de datos
-    }
-  };
+window.togglePHSensor = function() {
+  const status = document.getElementById("ph-sensor-status");
+  if (status.textContent === "ON") {
+    status.textContent = "OFF";
+    updatePHLevel(0); // Poner el indicador en 0
+  } else {
+    status.textContent = "ON";
+    startSensorDataUpdate(); // Iniciar la detección de datos
+  }
+};
 
   window.togglePump = function() {
     alert("Bomba encendida/apagada");
@@ -78,18 +78,29 @@ function updateSensorData(data) {
 
 function updateWaterLevel(level) {
   const waterFill = document.getElementById("water-fill");
-  waterFill.style.height = `${level}%`;
-  document.getElementById("water-level-percentage").textContent = `${level}%`;
-  document.getElementById("water-level-volume").textContent = `${Math.round(level * 11 / 100)} L`;
-}
-  
-  function updatePHLevel(level) {
-    const needle = document.getElementById("needle");
-    document.getElementById("ph-level-value").textContent = `${level}`;
-    const angle = ((level - 6.5) / 2) * 180;
-    needle.style.transform = `rotate(${angle}deg)`;
-  }
+  const levelNumber = parseFloat(level);
 
+  if (!isNaN(levelNumber)) {
+    waterFill.style.height = `${levelNumber}%`;
+    document.getElementById("water-level-percentage").textContent = `${levelNumber}%`;
+    document.getElementById("water-level-volume").textContent = `${Math.round(levelNumber * 11 / 100)} L`;
+  } else {
+    console.error("Nivel de agua no es un número válido:", level);
+  }
+}
+
+function updatePHLevel(level) {
+  const needle = document.getElementById("needle");
+  const levelNumber = parseFloat(level);
+
+  if (!isNaN(levelNumber)) {
+    document.getElementById("ph-level-value").textContent = `${levelNumber}`;
+    const angle = ((levelNumber - 6.5) / 2) * 180;
+    needle.style.transform = `rotate(${angle}deg)`;
+  } else {
+    console.error("Nivel de pH no es un número válido:", level);
+  }
+}
  function startSensorDataUpdate() {
   setInterval(() => {
     fetch('https://seniormistvern.github.io/#tinaco')
