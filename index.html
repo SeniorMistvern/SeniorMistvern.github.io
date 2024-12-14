@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arduino Data</title>
+    <title>Arduino Data Viewer</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Datos del Arduino</h1>
-    <div id="data"></div>
+    <div class="container">
+        <h1>Arduino Data Viewer</h1>
+        <p>Press the button to fetch data from the Arduino:</p>
+        <button id="fetchDataBtn">Fetch Data</button>
+        <div id="dataDisplay">Waiting for data...</div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
