@@ -1,140 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Monitoreo de Tinaco</title>
-  <link rel="stylesheet" href="styles.css">
-  <script type="module" src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Data</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<!-- Pantalla de carga -->
-<div id="loader">
-  <img src="img\Logo.png" alt="Logo" class="loader-logo">
-  <h1 class="loader-title">SmartSix</h1>
-  <div class="loader-bar">
-    <div class="loader-progress"></div>
-  </div>
-  <p class="loader-welcome">BIENVENIDOS</p>
-</div>
-
-<!-- Encabezado con logo y título -->
-<header class="header">
-  <div class="header-content">
-    <img src="img\Logo.png" alt="Logo" class="header-logo">
-    <h1 class="header-title">SmartSix</h1>
-  </div>
-</header>
-
-<!-- Barra lateral deslizante -->
-<div class="sidebar">
-  <button onclick="toggleSidebar()" class="sidebar-toggle">☰</button>
-  <nav>
-    <ul>
-      <li><a href="#inicio" onclick="showSection('inicio')">Inicio</a></li>
-      <li><a href="#tinaco" onclick="showSection('tinaco')">Datos del Tinaco</a></li>
-      <li><a href="#chat" onclick="showSection('chat')">Chat con IA</a></li>
-    </ul>
-  </nav>
-</div>
-
-<!-- Contenido principal -->
-<main>
-  <!-- Sección de inicio -->
-  <section id="inicio" class="section">
-    <div class="welcome-frame">
-      <h2>Bienvenido a la plataforma de monitoreo inteligente</h2>
-      <p>Conoce los detalles en tiempo real de tu sistema de agua.</p>
-    </div>
-    <div class="extra-frame">
-      <h2>Informacion 1</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie ante viverra ipsum rutrum, at suscipit ex molestie. 
-        Curabitur ac erat consectetur, aliquet sem interdum, laoreet nibh. Quisque ut posuere erat. Aliquam iaculis sapien pretium, 
-        sollicitudin tortor vel, lobortis magna. Aenean laoreet nunc et hendrerit ullamcorper. Praesent sit amet egestas tortor. 
-        Integer euismod ante at hendrerit condimentum. Nunc placerat auctor sapien in finibus. Etiam egestas interdum massa, varius suscipit odio egestas et. 
-        Vestibulum facilisis quam vitae lacus finibus suscipit. Integer vitae mauris velit. Donec id hendrerit nisl.</p>
-    </div>
-    <div class="info-frame">
-      <img src="img\ph-indicator.png" alt="Descripción de la imagen" class="info-image">
-    </div>
-    <div class="extra-frame">
-      <h2>Informacion 2</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie ante viverra ipsum rutrum, at suscipit ex molestie. 
-        Curabitur ac erat consectetur, aliquet sem interdum, laoreet nibh. Quisque ut posuere erat. Aliquam iaculis sapien pretium, 
-        sollicitudin tortor vel, lobortis magna. Aenean laoreet nunc et hendrerit ullamcorper. Praesent sit amet egestas tortor. 
-        Integer euismod ante at hendrerit condimentum. Nunc placerat auctor sapien in finibus. Etiam egestas interdum massa, varius suscipit odio egestas et. 
-        Vestibulum facilisis quam vitae lacus finibus suscipit. Integer vitae mauris velit. Donec id hendrerit nisl.</p>
-    </div>
-    <div class="info-frame">
-      <img src="img\ph-indicator.png" alt="Descripción de la imagen" class="info-image">
-    </div>
-  </section>
-  <section id="tinaco" class="section hidden">
-    <div class="tinaco-container">
-      <h2>Datos del Tinaco</h2>
-      
-      <!-- Indicador de nivel de agua con animación de llenado -->
-      <div class="indicator water-level">
-        <h3>Nivel de Agua</h3>
-        <div class="tank">
-          <div class="water-fill" id="water-fill"></div>
-        </div>
-        <p id="water-level-percentage">74%</p>
-        <p id="water-level-volume">826 L</p>
-      </div>
-      
-      <!-- Indicador de nivel de pH como tacómetro -->
-      <div class="indicator ph-level">
-        <h3>Nivel pH</h3>
-        <div class="tachometer">
-          <svg viewBox="0 0 100 50" class="gauge">
-            <!-- Semicírculo de fondo -->
-            <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#ddd" stroke-width="10"/>
-            <!-- Indicador de aguja -->
-            <line id="needle" x1="50" y1="50" x2="50" y2="15" stroke="#4caf50" stroke-width="2" />
-          </svg>
-        </div>
-        <p id="ph-level-value">7.2</p>
-      </div>
-  
-      <!-- Contenedor de botones debajo de los indicadores -->
-      <div class="button-container">
-        <button onclick="toggleWaterSensor()">Sensor Agua: <span id="water-sensor-status">ON</span></button>
-        <button onclick="togglePHSensor()">Sensor pH: <span id="ph-sensor-status">ON</span></button>
-        <button onclick="togglePump()">Encender/Apagar Bomba</button>
-        <button onclick="openModal()">Configurar Niveles</button>
-      </div>
-    </div>
-  
-    <!-- Ventana emergente para configurar niveles -->
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h3>Configurar Niveles Máximos y Mínimos</h3>
-        <label for="min-level">Nivel Mínimo de Agua (%):</label>
-        <input type="number" id="min-level" placeholder="Ingrese el nivel mínimo">
-        <label for="max-level">Nivel Máximo de Agua (%):</label>
-        <input type="number" id="max-level" placeholder="Ingrese el nivel máximo">
-        <button onclick="saveLevels()">Guardar</button>
-      </div>
-    </div>
-  </section>
-  <section id="chat" class="section hidden">
-    <div class="chat-frame">
-      <h2>Chat con IA</h2>
-      <p>Puedes hacer preguntas y obtener respuestas rápidas sobre el sistema de monitoreo.</p>
-      
-      <!-- Área de mensajes -->
-      <div class="chat-messages" id="chat-messages"></div>
-      
-      <!-- Campo de entrada y botón de envío -->
-      <div class="chat-input-container">
-        <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." />
-        <button onclick="sendChat()">Enviar</button>
-      </div>
-    </div>
-  </section>
-  </main>
+    <h1>Datos del Arduino</h1>
+    <div id="data"></div>
+    <script src="script.js"></script>
 </body>
 </html>
