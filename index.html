@@ -17,17 +17,22 @@
 
   <script>
     async function fetchData() {
-      const response = await fetch("http://192.168.129.160");
-      const text = await response.text();
+      try {
+        // Realizar la solicitud al servidor ESP8266
+        const response = await fetch("http://192.168.129.160");
+        const data = await response.json(); // Convertir la respuesta a JSON
 
-      // Parsear los datos de la respuesta
-      const distanceMatch = text.match(/Distancia: (.*?) cm/);
-      const phMatch = text.match(/pH: (.*?)</);
-
-      if (distanceMatch) document.getElementById("distance").textContent = `Distancia: ${distanceMatch[1]} cm`;
-      if (phMatch) document.getElementById("ph").textContent = `pH: ${phMatch[1]}`;
+        // Actualizar los datos en la página
+        document.getElementById("distance").textContent = `Distancia: ${data.distance} cm`;
+        document.getElementById("ph").textContent = `pH: ${data.ph}`;
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
+        document.getElementById("distance").textContent = "Distancia: Error";
+        document.getElementById("ph").textContent = "pH: Error";
+      }
     }
 
+    // Llamar a fetchData cada 2 segundos
     setInterval(fetchData, 2000);
   </script>
 </body>
