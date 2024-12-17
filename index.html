@@ -8,32 +8,38 @@
     body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
     h1 { color: #333; }
     p { font-size: 20px; }
+    .error { color: red; }
   </style>
 </head>
 <body>
   <h1>Datos del Sensor</h1>
   <p id="distance">Distancia: -- cm</p>
   <p id="ph">pH: --</p>
+  <p id="error" class="error"></p>
 
   <script>
     async function fetchData() {
       try {
-        // Realizar la solicitud al servidor ESP8266
         const response = await fetch("http://192.168.129.160/");
-        const data = await response.json(); // Convertir la respuesta a JSON
+        if (!response.ok) {
+          throw new Error(`Error HTTP: ${response.status}`);
+        }
+        const data = await response.json();
 
-        // Actualizar los datos en la página
         document.getElementById("distance").textContent = `Distancia: ${data.distance} cm`;
         document.getElementById("ph").textContent = `pH: ${data.ph}`;
+        document.getElementById("error").textContent = ""; // Limpiar mensajes de error
       } catch (error) {
-        console.error("Error al obtener datos:", error);
+        console.error("Error al obtener los datos:", error);
         document.getElementById("distance").textContent = "Distancia: Error";
         document.getElementById("ph").textContent = "pH: Error";
+        document.getElementById("error").textContent = "No se pudo obtener los datos del servidor.";
       }
     }
 
-    // Llamar a fetchData cada 2 segundos
+    // Actualizar cada 2 segundos
     setInterval(fetchData, 2000);
   </script>
 </body>
 </html>
+
