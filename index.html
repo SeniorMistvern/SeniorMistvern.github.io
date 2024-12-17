@@ -20,7 +20,7 @@
   <script>
     async function fetchData() {
       try {
-        const response = await fetch("http://192.168.129.160/");
+        const response = await fetch("http://192.168.129.160");
         if (!response.ok) {
           throw new Error(`Error HTTP: ${response.status}`);
         }
