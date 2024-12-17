@@ -19,7 +19,7 @@
     async function fetchData() {
       try {
         // Realizar la solicitud al servidor ESP8266
-        const response = await fetch("http://192.168.129.160");
+        const response = await fetch("http://192.168.129.160/");
         const data = await response.json(); // Convertir la respuesta a JSON
 
         // Actualizar los datos en la página
