@@ -67,44 +67,35 @@
           <h2 class="text-center mb-4 titulo-bonito">Monitoreo del Tinaco</h2>
           <div class="row">
             <!-- Nivel de Agua -->
-            <div class="col-md-6">
-              <div class="card mb-3">
-                <div class="card-header text-center">Nivel del Agua</div>
-                <div class="card-body text-center">
-                  <div class="progress-vertical">
-                    <div id="barra-agua" class="progress-bar-vertical" style="height: 0%;"></div>
-                  </div>
-                  <div id="valor-agua" class="progress-label">-</div>
-                  <div class="mt-3">
-                    <button class="btn btn-success" onclick="controlBomba(true)">Encender Bomba</button>
-                    <button class="btn btn-danger" onclick="controlBomba(false)">Apagar Bomba</button>
-                  </div>
-                  <div class="mt-3">
-                    <button class="btn btn-secondary" onclick="controlSensor('agua', true)">Encender Sensor</button>
-                    <button class="btn btn-secondary" onclick="controlSensor('agua', false)">Apagar Sensor</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-      
-            <!-- Nivel de pH -->
-            <div class="col-md-6">
-              <div class="card mb-3">
-                <div class="card-header text-center">Nivel de pH</div>
-                <div class="card-body text-center">
-                  <div class="progress-vertical">
-                    <div id="barra-ph" class="progress-bar-vertical bg-warning" style="height: 0%;"></div>
-                  </div>
-                  <div id="valor-ph" class="progress-label">-</div>
-                  <div class="mt-3">
-                    <button class="btn btn-secondary" onclick="controlSensor('ph', true)">Encender Sensor</button>
-                    <button class="btn btn-secondary" onclick="controlSensor('ph', false)">Apagar Sensor</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-      
+<div class="col-md-6">
+  <div class="card mb-3">
+    <div class="card-header text-center">Nivel del Agua</div>
+    <div class="card-body text-center">
+      <div class="progress-vertical">
+        <div id="barra-agua" class="progress-bar-vertical" style="height: 0%;"></div>
+      </div>
+      <div id="valor-agua" class="progress-label">-</div>
+      <div class="mt-3">
+        <button class="btn btn-success" onclick="controlBomba(true)">Encender Bomba</button>
+        <button class="btn btn-danger" onclick="controlBomba(false)">Apagar Bomba</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Nivel de pH -->
+<div class="col-md-6">
+  <div class="card mb-3">
+    <div class="card-header text-center">Nivel de pH</div>
+    <div class="card-body text-center">
+      <div class="progress-vertical">
+        <div id="barra-ph" class="progress-bar-vertical bg-warning" style="height: 0%;"></div>
+      </div>
+      <div id="valor-ph" class="progress-label">-</div>
+    </div>
+  </div>
+</div>
+
           <!-- Configuración de niveles -->
           <div class="card mt-4">
             <div class="card-header">Configurar Niveles de Agua</div>
