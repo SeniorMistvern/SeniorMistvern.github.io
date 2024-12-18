@@ -34,16 +34,19 @@ let sensorPhActivo = true;
 function actualizarDatos() {
   setInterval(async () => {
     try {
-      // Obtener datos desde Arduino
+      // Obtener datos desde el ESP8266
       if (!sensorAguaActivo && !sensorPhActivo) return;
 
       const response = await fetch("http://192.168.129.160/");
+      if (!response.ok) throw new Error("Error al obtener los datos del ESP8266");
+
       const data = await response.json();
 
       // Actualizar datos del sensor de agua
       if (sensorAguaActivo) {
-        document.getElementById("valor-agua").innerText = `${data.nivelAgua}%`;
-        document.getElementById("barra-agua").style.height = `${data.nivelAgua}%`;
+        const nivelAgua = data.nivelAgua !== undefined ? data.nivelAgua : "-";
+        document.getElementById("valor-agua").innerText = `${nivelAgua}%`;
+        document.getElementById("barra-agua").style.height = `${nivelAgua}%`;
       } else {
         document.getElementById("valor-agua").innerText = "-";
         document.getElementById("barra-agua").style.height = "0%";
@@ -51,8 +54,9 @@ function actualizarDatos() {
 
       // Actualizar datos del sensor de pH
       if (sensorPhActivo) {
-        document.getElementById("valor-ph").innerText = data.nivelPH;
-        document.getElementById("barra-ph").style.height = `${data.nivelPH}%`;
+        const nivelPH = data.nivelPH !== undefined ? data.nivelPH : "-";
+        document.getElementById("valor-ph").innerText = nivelPH;
+        document.getElementById("barra-ph").style.height = `${nivelPH}%`;
       } else {
         document.getElementById("valor-ph").innerText = "-";
         document.getElementById("barra-ph").style.height = "0%";
@@ -60,7 +64,10 @@ function actualizarDatos() {
 
       verificarNivelesAgua(data.nivelAgua);
     } catch (error) {
-      console.error("Error al obtener datos del Arduino:", error);
+      console.error("Error al obtener datos del ESP8266:", error);
+      // Opcional: muestra un mensaje en la página indicando que no se pudieron obtener los datos
+      document.getElementById("valor-agua").innerText = "-";
+      document.getElementById("valor-ph").innerText = "-";
     }
   }, 3000);
 }
@@ -79,7 +86,7 @@ function verificarNivelesAgua(nivelAgua) {
 
 function controlBomba(encender) {
   showModal(encender ? "Encendiendo la bomba de agua" : "Apagando la bomba de agua");
-  // Aquí se puede agregar una lógica adicional para comunicar el estado al servidor si es necesario
+  // Aquí se puede agregar lógica para enviar una solicitud al ESP8266 para controlar la bomba
 }
 
 function configurarNiveles() {
